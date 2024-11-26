@@ -30,7 +30,7 @@ class Grafo:
                     visitados.append(vizinho)
                     fila.append(vizinho)
 
-    def dijkstra(self, inicio):
+    def dijkstra(self, inicio, fim):
         min_arvore = minHeap.min_heap()
         min_arvore.inserir((inicio,0, inicio))
 
@@ -48,6 +48,10 @@ class Grafo:
             visitados.append(atual)
             caminhos.append(vertice)
 
+            # determina o fim da busca: se cheguei no meu destino, o algoritmo para de expandir a mancha
+            if atual == fim:
+                break
+
             for vizinho in self.grafo.get(atual,[]):
                 destino = vizinho[0]
                 peso = vizinho[1]
@@ -58,7 +62,28 @@ class Grafo:
                 novo_custo = custo + peso
 
                 min_arvore.inserir((destino,novo_custo,atual))
-        return caminhos, visitados
+
+        caminhos.reverse()
+
+        caminho_certo = []
+        caminho_certo.append(caminhos[0])
+
+        meu_tamanho = len(caminhos)
+
+        minha_aresta = caminhos.pop(0)
+        # enquanto a distância for diferente de 0 (que significa que podemos finalizar o backtracking)
+        while minha_aresta[1] != 0:
+            # percorrendo a lista inteira de possiveis caminhos
+            for i in range (meu_tamanho-1):
+                if caminhos[i][0] == minha_aresta[2]:
+                    minha_aresta = caminhos[i]
+                    caminho_certo.append(minha_aresta)
+
+
+        #print(caminho_certo)
+        # remove ['destino', 0, 'destino']
+        caminho_certo.pop()
+        return caminho_certo, visitados
             
     #verifico todos os possiveis caminho
     #veja qual é o menor caminho(leva min_heap)
@@ -85,8 +110,9 @@ grafo_bonito ={
 
 grafo = Grafo(grafo_bonito)
 
-primeiro = 's'
+primeiro = '5'
+fim = 't'
 
-p = grafo.dijkstra(primeiro)
+p = grafo.dijkstra(primeiro, fim)
 
 print(p)
