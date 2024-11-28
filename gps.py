@@ -1,8 +1,11 @@
 import tkinter as tk
 import coordenadasMapa
 import meuMapa
+import math
 
 def desenha_caminho():
+    raio_no = 10
+    tamanho_seta = (15, 20, 6)
     # Desenho dos vértices
     for node, edges in meuMapa.mapa.items():
         x, y = coordenadasMapa.coordenadas_mapa[node]
@@ -14,10 +17,22 @@ def desenha_caminho():
         x1, y1 = coordenadasMapa.coordenadas_mapa[node]
         for neighbor, peso, _ in edges:
             x2, y2 = coordenadasMapa.coordenadas_mapa[neighbor]
-            canvas.create_line(x1, y1, x2, y2, width=2, fill="gray", arrow="last")
+            
+            # Calcular direção e ajustar para evitar sobreposição
+            dx, dy = x2 - x1, y2 - y1
+            dist = math.sqrt(dx**2 + dy**2)
+            dx, dy = dx / dist, dy / dist  # Vetor normalizado
+            x1_adjusted, y1_adjusted = x1 + dx * raio_no, y1 + dy * raio_no
+            x2_adjusted, y2_adjusted = x2 - dx * raio_no, y2 - dy * raio_no
+
+            canvas.create_line(
+                x1_adjusted, y1_adjusted, x2_adjusted, y2_adjusted,
+                width=2, fill="gray", arrow="last", arrowshape=tamanho_seta
+            )
+
             # Exibindo o peso da aresta no meio
-            meio_x = (x1 + x2) / 2
-            meio_y = (y1 + y2) / 2
+            meio_x = (x1_adjusted + x2_adjusted) / 2
+            meio_y = (y1_adjusted + y2_adjusted) / 2
             canvas.create_text(meio_x, meio_y, text=str(peso), fill="black")
 
 def gerenciador():
