@@ -66,35 +66,3 @@ class Grafo:
         # remove ['destino', 0, 'destino']
         caminho_certo.pop()
         return caminho_certo, visitados
-            
-    #verifico todos os possiveis caminho
-    #veja qual é o menor caminho(leva min_heap)
-    #marco o novo vertice
-    #tiro todos os outros caminho que poderiam chagar nele
-    #volto pro começo
-
-# grafo_feio = {
-#     'A': [['B', 1, 'A'], ['C', 2, 'A']],
-#     'B': [['A', 1, 'B']],
-#     'C': [['A', 2, 'C'], ['D', 3, 'C']],
-#     'D': [['C', 3, 'D']]
-# }
-
-# grafo_bonito ={
-#     's': [['2', 9, 's'],['6',14,'s'],['7',15,'s']],
-#     '2': [['3',23,'2']],
-#     '6': [['3', 18, '6'], ['5', 30, '6'], ['7',5,'6']],
-#     '7': [['5',20,'7'], ['t',44,'7']],
-#     '3': [['5',2,'3'], ['t',19,'3']],
-#     '5': [['4', 11,'5'], ['t',16,'5']],
-#     '4': [['3', 6,'4'], ['t',6,'4']] 
-# }
-
-# grafo = Grafo(grafo_bonito)
-
-# primeiro = '5'
-# fim = 't'
-
-# p = grafo.dijkstra(primeiro, fim)
-
-# print(p)
